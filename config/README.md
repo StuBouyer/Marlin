@@ -1,6 +1,7 @@
 # Where have all the configurations gone?
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 ## https://github.com/MarlinFirmware/Configurations/archive/release-2.0.7.zip
 =======
 Marlin configurations for specific machines are now maintained in their own repository at:
@@ -11,3 +12,6 @@ Configuration files for use with the nightly `bugfix-2.0.x` branch can be downlo
 
 ## https://github.com/MarlinFirmware/Configurations/archive/bugfix-2.0.x.zip
 >>>>>>> upstream/bugfix-2.0.x
+=======
+## https://github.com/MarlinFirmware/Configurations/archive/release-2.0.7.1.zip
+>>>>>>> ender3pro
