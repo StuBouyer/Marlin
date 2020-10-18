@@ -123,8 +123,11 @@ void tft_lvgl_init() {
 
   //spi_flash_read_test();
   #if ENABLED(SDSUPPORT)
+    watchdog_refresh();
     UpdateAssets();
   #endif
+
+  watchdog_refresh();
   mks_test_get();
 
   touch.Init();
@@ -215,10 +218,17 @@ void tft_lvgl_init() {
 
 void my_disp_flush(lv_disp_drv_t * disp, const lv_area_t * area, lv_color_t * color_p) {
   uint16_t i, width, height;
+<<<<<<< HEAD
 
   width = area->x2 - area->x1 + 1;
   height = area->y2 - area->y1 + 1;
 
+=======
+
+  width = area->x2 - area->x1 + 1;
+  height = area->y2 - area->y1 + 1;
+
+>>>>>>> 2.0.x
   SPI_TFT.setWindow((uint16_t)area->x1, (uint16_t)area->y1, width, height);
   for (i = 0; i < height; i++) {
     SPI_TFT.tftio.WriteSequence((uint16_t*)(color_p + width * i), width);
@@ -449,6 +459,7 @@ void lv_encoder_pin_init() {
     if (diffTime > 50) {
 
       #if HAS_ENCODER_WHEEL
+<<<<<<< HEAD
 
         #if ANY_BUTTON(EN1, EN2, ENC, BACK)
 
@@ -475,6 +486,34 @@ void lv_encoder_pin_init() {
 
 
         static uint8_t buttons = newbutton;
+=======
+
+        #if ANY_BUTTON(EN1, EN2, ENC, BACK)
+
+          uint8_t newbutton = 0;
+
+          #if BUTTON_EXISTS(EN1)
+            if (BUTTON_PRESSED(EN1)) newbutton |= EN_A;
+          #endif
+          #if BUTTON_EXISTS(EN2)
+            if (BUTTON_PRESSED(EN2)) newbutton |= EN_B;
+          #endif
+          #if BUTTON_EXISTS(ENC)
+            if (BUTTON_PRESSED(ENC)) newbutton |= EN_C;
+          #endif
+          #if BUTTON_EXISTS(BACK)
+            if (BUTTON_PRESSED(BACK)) newbutton |= EN_D;
+          #endif
+
+        #else
+
+          constexpr uint8_t newbutton = 0;
+
+        #endif
+
+        static uint8_t buttons = 0;
+        buttons = newbutton;
+>>>>>>> 2.0.x
         static uint8_t lastEncoderBits;
 
         #define encrot0 0
