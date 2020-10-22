@@ -44,7 +44,7 @@
 #include "../../../../inc/MarlinConfig.h"
 
 #include HAL_PATH(../../HAL, tft/xpt2046.h)
-#include "../../../ultralcd.h"
+#include "../../../marlinui.h"
 XPT2046 touch;
 
 #if ENABLED(POWER_LOSS_RECOVERY)
@@ -72,7 +72,7 @@ lv_group_t*  g;
 uint16_t DeviceCode = 0x9488;
 extern uint8_t sel_id;
 
-extern uint8_t gcode_preview_over, flash_preview_begin, default_preview_flg;
+extern bool flash_preview_begin, default_preview_flg, gcode_preview_over;
 
 uint8_t bmp_public_buf[17 * 1024];
 
@@ -80,9 +80,8 @@ void SysTick_Callback() {
   lv_tick_inc(1);
   print_time_count();
   #if ENABLED(USE_WIFI_FUNCTION)
-    if (tips_disp.timer == TIPS_TIMER_START) {
+    if (tips_disp.timer == TIPS_TIMER_START)
       tips_disp.timer_count++;
-    }
   #endif
   if (uiCfg.filament_loading_time_flg == 1) {
     uiCfg.filament_loading_time_cnt++;
@@ -193,10 +192,10 @@ void tft_lvgl_init() {
   #if ENABLED(POWER_LOSS_RECOVERY)
     recovery.load();
     if (recovery.valid()) {
-      if (gCfgItems.from_flash_pic == 1)
-        flash_preview_begin = 1;
+      if (gCfgItems.from_flash_pic)
+        flash_preview_begin = true;
       else
-        default_preview_flg = 1;
+        default_preview_flg = true;
 
       uiCfg.print_state = REPRINTING;
 
@@ -218,17 +217,10 @@ void tft_lvgl_init() {
 
 void my_disp_flush(lv_disp_drv_t * disp, const lv_area_t * area, lv_color_t * color_p) {
   uint16_t i, width, height;
-<<<<<<< HEAD
 
   width = area->x2 - area->x1 + 1;
   height = area->y2 - area->y1 + 1;
 
-=======
-
-  width = area->x2 - area->x1 + 1;
-  height = area->y2 - area->y1 + 1;
-
->>>>>>> 2.0.x
   SPI_TFT.setWindow((uint16_t)area->x1, (uint16_t)area->y1, width, height);
   for (i = 0; i < height; i++) {
     SPI_TFT.tftio.WriteSequence((uint16_t*)(color_p + width * i), width);
@@ -415,36 +407,32 @@ lv_fs_res_t sd_tell_cb(lv_fs_drv_t * drv, void * file_p, uint32_t * pos_p) {
 }
 
 void lv_encoder_pin_init() {
-  #if 1 // HAS_DIGITAL_BUTTONS
+  #if BUTTON_EXISTS(EN1)
+    SET_INPUT_PULLUP(BTN_EN1);
+  #endif
+  #if BUTTON_EXISTS(EN2)
+    SET_INPUT_PULLUP(BTN_EN2);
+  #endif
+  #if BUTTON_EXISTS(ENC)
+    SET_INPUT_PULLUP(BTN_ENC);
+  #endif
 
-    #if BUTTON_EXISTS(EN1)
-      SET_INPUT_PULLUP(BTN_EN1);
-    #endif
-    #if BUTTON_EXISTS(EN2)
-      SET_INPUT_PULLUP(BTN_EN2);
-    #endif
-    #if BUTTON_EXISTS(ENC)
-      SET_INPUT_PULLUP(BTN_ENC);
-    #endif
+  #if BUTTON_EXISTS(BACK)
+    SET_INPUT_PULLUP(BTN_BACK);
+  #endif
 
-    #if BUTTON_EXISTS(BACK)
-      SET_INPUT_PULLUP(BTN_BACK);
-    #endif
-
-    #if BUTTON_EXISTS(UP)
-      SET_INPUT(BTN_UP);
-    #endif
-    #if BUTTON_EXISTS(DWN)
-      SET_INPUT(BTN_DWN);
-    #endif
-    #if BUTTON_EXISTS(LFT)
-      SET_INPUT(BTN_LFT);
-    #endif
-    #if BUTTON_EXISTS(RT)
-      SET_INPUT(BTN_RT);
-    #endif
-
-  #endif // HAS_DIGITAL_BUTTONS
+  #if BUTTON_EXISTS(UP)
+    SET_INPUT(BTN_UP);
+  #endif
+  #if BUTTON_EXISTS(DWN)
+    SET_INPUT(BTN_DWN);
+  #endif
+  #if BUTTON_EXISTS(LFT)
+    SET_INPUT(BTN_LFT);
+  #endif
+  #if BUTTON_EXISTS(RT)
+    SET_INPUT(BTN_RT);
+  #endif
 }
 
 #if 1 // HAS_ENCODER_ACTION
@@ -485,6 +473,7 @@ void lv_encoder_pin_init() {
         #endif
 
 
+<<<<<<< HEAD
         static uint8_t buttons = newbutton;
 =======
 
@@ -514,6 +503,10 @@ void lv_encoder_pin_init() {
         static uint8_t buttons = 0;
         buttons = newbutton;
 >>>>>>> 2.0.x
+=======
+        static uint8_t buttons = 0;
+        buttons = newbutton;
+>>>>>>> bugfix-2.0.x
         static uint8_t lastEncoderBits;
 
         #define encrot0 0
