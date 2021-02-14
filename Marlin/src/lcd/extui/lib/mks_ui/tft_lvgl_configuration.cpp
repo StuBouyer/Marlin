@@ -458,27 +458,8 @@ void lv_encoder_pin_init() {
     if (diffTime > 50) {
 
       #if HAS_ENCODER_WHEEL
-<<<<<<< HEAD
 
-        #if ANY_BUTTON(EN1, EN2, ENC, BACK)
 
-          uint8_t newbutton = 0;
-          if (BUTTON_PRESSED(EN1)) newbutton |= EN_A;
-          if (BUTTON_PRESSED(EN2)) newbutton |= EN_B;
-          if (BUTTON_PRESSED(ENC)) newbutton |= EN_C;
-          if (BUTTON_PRESSED(BACK)) newbutton |= EN_D;
-
-        #else
-
-          constexpr uint8_t newbutton = 0;
-
-        #endif
-
-<<<<<<< HEAD
-
-<<<<<<< HEAD
-        static uint8_t buttons = newbutton;
-=======
 
         #if ANY_BUTTON(EN1, EN2, ENC, BACK)
 
@@ -502,17 +483,10 @@ void lv_encoder_pin_init() {
           constexpr uint8_t newbutton = 0;
 
         #endif
+        
+        static uint8_t buttons = 0;
+        buttons = newbutton;
 
-        static uint8_t buttons = 0;
-        buttons = newbutton;
->>>>>>> 2.0.x
-=======
-=======
->>>>>>> upstream/bugfix-2.0.x
-        static uint8_t buttons = 0;
-        buttons = newbutton;
->>>>>>> bugfix-2.0.x
-        static uint8_t lastEncoderBits;
 
         #define encrot0 0
         #define encrot1 1
